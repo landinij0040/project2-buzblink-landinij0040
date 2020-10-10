@@ -14,6 +14,7 @@ char start() // 100 %
 char s0() // 67%
 {
   static char state0 = 0;
+  buzzer_set_period(1362); // Playing D 
   switch (state0) {
   case 0:
     red_on = 1;
@@ -34,6 +35,7 @@ char s0() // 67%
 char s1() // 50%
 {
   static char state1 = 0;
+  buzzer_set_period(1213); // Playing E
   switch (state1) {
   case 0:
     red_on = 1;
@@ -50,6 +52,7 @@ char s1() // 50%
 char s2() // 33%
 {
   static char state2 = 0;
+  buzzer_set_period(1145); // Playing F
   switch (state2) {
   case 0:
     red_on = 1;

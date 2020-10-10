@@ -1,10 +1,12 @@
 #include <msp430.h>
 #include "stateMachines.h"
 #include "led.h"
+#include "buzzer.h"
 char big_state_change = 0;
 
 char start() // 100 %
 {
+  buzzer_set_period(1528); // Playing C
   red_on = 1;
   return 1;
 }

@@ -5,7 +5,7 @@
 
 
 static int x = 500;
-
+static int go_down = 0;
 char freq_up_green_led()
 {
   buzzer_set_period(2000000/x);
@@ -17,8 +17,10 @@ char freq_up_green_led()
 void state_advance()		/* alternate between toggling red & green */
 {
   char changed = 0;
-  
-  changed = freq_up_green_led();
+  switch(go_down){
+  case 0: changed = freq_up_green_led();
+  }
+
   
   led_changed = changed;
   led_update();

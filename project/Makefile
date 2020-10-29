@@ -11,11 +11,11 @@ AS              = msp430-elf-as
 all: project.elf 
 
 #additional rules for files
-blink.elf: ${COMMON_OBJECTS} main.o stateMachines.o led.o wdInterruptHandler.o ../lib/libTimer.a
+project.elf: ${COMMON_OBJECTS} main.o stateMachines.o buzzer.o switches.o led.o p2_interrupt_handler.o wdInterruptHandler.o ../lib/libTimer.a
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^
 
-load: blink.elf
-	msp430loader.sh blink.elf
+load: project.elf
+	msp430loader.sh project.elf
 
 clean:
 	rm -f *.o *.elf

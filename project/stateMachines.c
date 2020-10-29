@@ -2,57 +2,24 @@
 #include "stateMachines.h"
 #include "led.h"
 #include "buzzer.h"
-char big_state_change = 0;
+char big_state_change = 0; /* To change for eah button press*/
 
-char start() // 100 %
+/* for the siren*/
+static int x = 1145;
+
+char s1() // LED RED 0%, No Sound
 {
-  buzzer_set_period(1528); // Playing C
-  red_on = 1;
+  buzzer_set_period(0);
+  red_on = 0;
+  green_on = 0;
   return 1;
 }
 
-char s0() // 67%
+char s2() // LED RED 33%, C
 {
-  static char state0 = 0;
-  buzzer_set_period(1362); // Playing D 
-  switch (state0) {
-  case 0:
-    red_on = 1;
-    state0 = 1;
-    break;
-  case 1: 
-    red_on = 1;
-    state0 = 2;
-    break;
-  case 2:
-    red_on = 0;
-    state0 = 0;
-    break;
-  }
-  return 1;			/* always changes an led */
-} 
-
-char s1() // 50%
-{
-  static char state1 = 0;
-  buzzer_set_period(1213); // Playing E
-  switch (state1) {
-  case 0:
-    red_on = 1;
-    state1 = 1;
-    break;
-  case 1: 
-    red_on = 0;
-    state1 = 0;
-    break;
-  }
-  return 1;			/* always changes an led */
-}
-
-char s2() // 33%
-{
+  green_on = 0;
   static char state2 = 0;
-  buzzer_set_period(1145); // Playing F
+  buzzer_set_period(1528);
   switch (state2) {
   case 0:
     red_on = 1;
@@ -70,33 +37,58 @@ char s2() // 33%
   return 1;			/* always changes an led */
 }
 
-char end() // 0%
+
+char s3() // LED RED 67%, D
 {
+  green_on = 0;
+  static char state0 = 0;
+  buzzer_set_period(1362); // Playing D 
+  switch (state0) {
+  case 0:
+    red_on = 1;
+    state0 = 1;
+    break;
+  case 1: 
+    red_on = 1;
+    state0 = 2;
+    break;
+  case 2:
+    red_on = 0;
+    state0 = 0;
+    break;
+  }
+  return 1;			/* always changes an led */
+}    
+
+char freq_up()  // LED GREEN, Siren Up
+{ 
+  x += 5;
+  green_on = 1;
   red_on = 0;
-  buzzer_set_period(0);
+  buzzer_set_period(2000000/x);
   return 1;
+}
 
-}  
 
-void state_advance()		/* alternate between toggling red & green */
+void state_advance()		/* state changes depending on big_state() */
 {
   char changed = 0;
   
   switch(big_state_change){
-  case 0: //Start
-    changed = start();
-    break;
-  case 1: // 67%
-    changed = s0();
-    break;
-  case 2:// 50%
+  case 1: // LED RED 0%, No Sound
     changed = s1();
+    x = 1145;
     break;
-  case 3: // 33%
+  case 2: // LED RED 33%, C
     changed = s2();
+    x = 1145;
     break;
-  case 4: // end
-    changed = end();
+  case 3: // LED RED 67%, D
+    changed = s3();
+    x = 1145;
+    break;
+  case 4: // LED GREEN 100%, Siren
+    changed = freq_up();
     break;
   } 
   led_changed = changed;
@@ -110,16 +102,16 @@ void big_state()
       // big_state_change = 1;
     // bstate = 1;
     // break; 
-  case 1: // LED 100%, C
-    big_state_change = 0;
-    break;
-  case 2: // LED 67%, D
+  case 1: // LED RED 0%, No Sound
     big_state_change = 1;
     break;
-  case 3:// LED 50%, E
+  case 2: // LED RED 33%, C
     big_state_change = 2;
     break;
-  case 4:// LED 0%, no sound
+  case 3:// LED RED 66%, D
+    big_state_change = 3;
+    break;
+  case 4:// LED GREEN 100%, Siren
     big_state_change = 4;
     break;
   }

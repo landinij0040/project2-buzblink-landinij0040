@@ -2,10 +2,10 @@
 #include "stateMachines.h"
 #include "led.h"
 #include "buzzer.h"
-char big_state_change = 0; /* To change for eah button press*/
+char big_state_change = 0; /* To change for each button press */
 
-/* for the siren*/
-static int x = 1145;
+
+static int x = 1145;       /* for the siren */
 
 char s1() // LED RED 0%, No Sound
 {
@@ -34,7 +34,7 @@ char s2() // LED RED 33%, C
     state2 = 0;
     break;
   }
-  return 1;			/* always changes an led */
+  return 1;		       
 }
 
 
@@ -42,7 +42,7 @@ char s3() // LED RED 67%, D
 {
   green_on = 0;
   static char state0 = 0;
-  buzzer_set_period(1362); // Playing D 
+  buzzer_set_period(1362);  
   switch (state0) {
   case 0:
     red_on = 1;
@@ -57,7 +57,7 @@ char s3() // LED RED 67%, D
     state0 = 0;
     break;
   }
-  return 1;			/* always changes an led */
+  return 1;			
 }    
 
 char freq_up()  // LED GREEN, Siren Up
@@ -98,10 +98,6 @@ void big_state()
 {
   // static char bstate = 0;
   switch(bstate){
-    //  case 0:  // For the 100% state
-      // big_state_change = 1;
-    // bstate = 1;
-    // break; 
   case 1: // LED RED 0%, No Sound
     big_state_change = 1;
     break;

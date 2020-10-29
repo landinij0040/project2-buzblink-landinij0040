@@ -29,6 +29,7 @@ void
 switch_interrupt_handler()
 {
   char p2val = switch_update_interrupt_sense();
+  
   bstate = (p2val & SW1) ? 0 : 1; /* 0 when SW1 is up */
   if(bstate == 0){/* Checks the second switch */
     bstate = (p2val & SW2) ? 0 : 2;/* 0 when SW2 is up */

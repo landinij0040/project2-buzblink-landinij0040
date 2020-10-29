@@ -4,5 +4,5 @@
 void state_advance();
 void big_state();
 
-extern char bstate; /* for changing the dim and the led */ 
+extern char bstate; /* for changing the big state depending on a button press */ 
 #endif // included
